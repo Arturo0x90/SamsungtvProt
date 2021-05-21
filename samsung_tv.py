@@ -3,7 +3,7 @@ import socket
 import time
 import sys
 
-def string_additive(string, raw=False):
+def adaptarstring(string, raw=False):
     if isinstance(string, str):
         string = str.encode(string)
     if not raw:
@@ -49,8 +49,8 @@ def comandos_tv():
     while True:
         try:
             key = input("Consola -> ")
-            payload = b"\x00\x00\x00" + string_additive(key)
-            packet = b"\x00\x00\x00" + string_additive(payload, True)
+            payload = b"\x00\x00\x00" + adaptarstring(key)
+            packet = b"\x00\x00\x00" + adaptarstring(payload, True)
             print("Enviando: %s", key)
             connection.send(packet)
             response = leer_con(True)
@@ -60,9 +60,9 @@ def comandos_tv():
             exit("Sesion Consola cerrada")
 def llamar():
     payload = b"\x64\x00" \
-              + string_additive(config["descripcion"]) \
-              + string_additive(config["id"]) \
-              + string_additive(config["name"])
+              + adaptarstring(config["descripcion"]) \
+              + adaptarstring(config["id"]) \
+              + adaptarstring(config["name"])
     packet = b"\x00\x00\x00" + string_additive(payload, True)
     connection.send(packet)
     leer_con()
